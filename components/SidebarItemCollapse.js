@@ -6,13 +6,21 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import SidebarItem from "./SidebarItem";
+import { useRouter } from "next/router";
 
-const SidebarItemCollapse = ({ item }) => {
+const SidebarItemCollapse = ({ item, handleDrawerToggle }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const checkOpen = router.pathname.includes(item.path) ? true : false;
+
+  useEffect(() => {
+    setOpen(checkOpen);
+  }, [checkOpen]);
 
   return item ? (
     <>
@@ -20,15 +28,17 @@ const SidebarItemCollapse = ({ item }) => {
         onClick={() => setOpen(!open)}
         sx={{
           "&: hover": {
-            backgroundColor: "#cccccc",
+            backgroundColor: "#19376D",
           },
-          paddingY: "12px",
-          paddingX: "24px",
+          paddingY: "10px",
+          paddingX: "15px",
         }}
       >
         <ListItemIcon
           sx={{
-            color: "#dddddd",
+            color: "#ffffff",
+            opacity: 0.3,
+            minWidth: "40px",
           }}
         >
           {item.icon && item.icon}
@@ -44,9 +54,17 @@ const SidebarItemCollapse = ({ item }) => {
           {item.child?.map((route, index) =>
             route ? (
               route.child ? (
-                <SidebarItemCollapse item={route} key={index} />
+                <SidebarItemCollapse
+                  item={route}
+                  key={index}
+                  handleDrawerToggle={handleDrawerToggle}
+                />
               ) : (
-                <SidebarItem item={route} key={index} />
+                <SidebarItem
+                  item={route}
+                  key={index}
+                  handleDrawerToggle={handleDrawerToggle}
+                />
               )
             ) : null
           )}
