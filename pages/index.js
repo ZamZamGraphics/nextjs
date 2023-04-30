@@ -1,11 +1,13 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function Home() {
-  return (
-    <div>
-      <h3>
-        <Link href="/dashboard">Dashboard</Link>
-      </h3>
-    </div>
-  );
+function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/dashboard");
+  }, [router]);
+
+  return <div>Redirecting to dashboard...</div>;
 }
+
+export default Home;

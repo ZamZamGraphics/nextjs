@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import PrivetRoute from "./PrivetRoute";
 
 const sidebarWidth = "220px";
 const Main = styled("main")(({ theme }) => ({
@@ -22,7 +23,7 @@ export default function Layout({ children }) {
 
   if (router.pathname.includes("/dashboard")) {
     return (
-      <>
+      <PrivetRoute>
         <Navbar
           sidebarWidth={sidebarWidth}
           handleDrawerToggle={handleDrawerToggle}
@@ -33,7 +34,7 @@ export default function Layout({ children }) {
           handleDrawerToggle={handleDrawerToggle}
         />
         <Main sx={{ ml: { sm: sidebarWidth } }}>{children}</Main>
-      </>
+      </PrivetRoute>
     );
   } else {
     return children;
